@@ -15,6 +15,16 @@
     "jsx": "preserve",
     "incremental": true
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
+  "include": [
+    "pages/api/apiConfig.ts",
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    "utils/requests.js",
+    "pages/api/axiosClient.ts",
+    "pages/api/tmdbApi.ts",
+    "pages/api/auth/[...nextauth].js",
+    "pages/auth/signin.js"
+  ],
   "exclude": ["node_modules"]
 }
