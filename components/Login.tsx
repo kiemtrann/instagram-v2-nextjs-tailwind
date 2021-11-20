@@ -2,13 +2,17 @@
 import React from 'react'
 import Image from 'next/image'
 import bg from '../public/backgroud.png'
-import lghead from '../public/instagram.png'
+import FormDialog from './SelectAvata'
 
 function Login(props: {
   email: string
   setEmail: (value: React.SetStateAction<string>) => void
   password: string
   setPassword: (value: React.SetStateAction<string>) => void
+  username: string
+  setUsername: (value: React.SetStateAction<string>) => void
+  avata: string
+  setAvatar: (value: React.SetStateAction<string>) => void
   handleLogin: () => void
   handleSignUp: () => void
   hasAccount: boolean
@@ -21,6 +25,10 @@ function Login(props: {
     setEmail,
     password,
     setPassword,
+    username,
+    setUsername,
+    avata,
+    setAvatar: setAvata,
     handleLogin,
     handleSignUp,
     hasAccount,
@@ -30,39 +38,35 @@ function Login(props: {
   } = props
   return (
     <div className="flex flex-row justify-center h-screen md:flex-col sm:flex-col lg:flex-row xl:flex-row">
-      <Image
-        src={bg}
-        alt=""
-        className="object-cover sm:opacity-0 md:opacity-0 lg:opacity-100 xl:opacity-100"
-      />
-      <div className="pt-14 pl-16 pr-16 mt-11 mb-14 ml-5 mr-5 border-2 rounded-lg">
+      <Image src={bg} alt="" className="object-cover opacity-0 sm:opacity-100" />
+      <div className="pt-5 pl-16 pr-16 mt-11 mb-14 ml-5 mr-5 border-2 rounded-lg">
         <img
           src="https://upload.wikimedia.org/wikipedia/commons/0/06/%C4%B0nstagram-Profilime-Kim-Bakt%C4%B1-1.png"
           alt=""
           className="h-16 ml-10"
         />
         <section className="bg-white">
-          <div className="">
-            <input
-              type="text"
-              required
-              value={email}
-              placeholder="Enter your email"
-              onChange={(e) => setEmail(e.target.value)}
-              className="w-72 focus:border-gray-400 rounded-md mt-5 mb-3"
-            />
-            <p className="">{emailError}</p>
-            <input
-              type="password"
-              required
-              placeholder="Password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="w-72 focus:border-gray-400 rounded-md mb-2"
-            />
-            <p className="">{passwordError}</p>
+          <div className="flex flex-col">
             {hasAccount ? (
               <>
+                <input
+                  type="text"
+                  required
+                  value={email}
+                  placeholder="Enter your email"
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="w-72 focus:border-gray-400 rounded-md mt-5 mb-3"
+                />
+                <p className="">{emailError}</p>
+                <input
+                  type="password"
+                  required
+                  placeholder="Password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  className="w-72 focus:border-gray-400 rounded-md mb-2"
+                />
+                <p className="">{passwordError}</p>
                 <button
                   className="mt-5 w-72 pt-2 pb-2 text-center bg-blue-500 rounded-md text-white font-bold hover:bg-blue-300"
                   onClick={handleLogin}
@@ -83,6 +87,33 @@ function Login(props: {
               </>
             ) : (
               <>
+                <input
+                  type="text"
+                  required
+                  value={email}
+                  placeholder="Enter your email"
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="w-72 focus:border-gray-400 rounded-md mt-2 mb-2"
+                />
+                <p className="">{emailError}</p>
+                <input
+                  type="password"
+                  required
+                  placeholder="Password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  className="w-72 focus:border-gray-400 rounded-md"
+                />
+                <p className="">{passwordError}</p>
+                <input
+                  type="text"
+                  required
+                  value={username}
+                  placeholder="Username"
+                  onChange={(e) => setUsername(e.target.value)}
+                  className="w-72 focus:border-gray-400 rounded-md mt-2 mb-2"
+                />
+                <FormDialog setAvata={setAvata} />
                 <button
                   className="mt-5 w-72 pt-2 pb-2 text-center bg-blue-500 rounded-md text-white font-bold hover:bg-blue-300"
                   onClick={handleSignUp}

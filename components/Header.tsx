@@ -1,8 +1,10 @@
+/* eslint-disable @next/next/link-passhref */
 /* eslint-disable @next/next/no-img-element */
 import * as React from 'react'
 import Image from 'next/image'
 import logoLg from '../public/instagram.png'
 import logoMb from '../public/insta-logo.png'
+import { auth } from '../firebase'
 import {
   SearchIcon,
   PlusCircleIcon,
@@ -12,18 +14,29 @@ import {
   MenuIcon,
 } from '@heroicons/react/outline'
 import { HomeIcon } from '@heroicons/react/solid'
+import { useRecoilState } from 'recoil'
+import { modalState } from '../atoms/moduleAtom'
+import Link from 'next/link'
 
-export interface IHeaderProps {}
+export interface IHeaderProps {
+  username: string
+  avatar: string
+}
 
 export default function Header(props: IHeaderProps) {
+  const [open, setOpen] = useRecoilState(modalState)
   return (
     <div className="shadow-sm border-b bg-white sticky top-0 z-50">
       <div className="flex justify-between max-w-6xl mx-5 lg:mx-auto">
         <div className="relative hidden lg:inline-grid w-24 cursor-pointer">
-          <Image src={logoLg} alt="" layout="fill" objectFit="contain" />
+          <Link href={'/'}>
+            <Image src={logoLg} alt="" layout="fill" objectFit="contain" />
+          </Link>
         </div>
         <div className="relative flex-shrink-0 lg:hidden w-10 cursor-pointer">
-          <Image src={logoMb} alt="" layout="fill" objectFit="contain" />
+          <Link href={'/'}>
+            <Image src={logoMb} alt="" layout="fill" objectFit="contain" />
+          </Link>
         </div>
         {/*  */}
         <div className="max-w-xs">
@@ -48,11 +61,13 @@ export default function Header(props: IHeaderProps) {
               3
             </div>
           </div>
-          <PlusCircleIcon className="navBtn" />
-          <UserGroupIcon className="navBtn" />
+          <PlusCircleIcon className="navBtn" onClick={() => setOpen(true)} />
+          <Link href={'/users'}>
+            <UserGroupIcon className="navBtn" />
+          </Link>
           <HeartIcon className="navBtn" />
           <img
-            src="https://avatars.githubusercontent.com/u/87219641?s=400&u=26e805db6b99e02352ca30efe31ff953c4a9556c&v=4"
+            src={auth.currentUser?.photoURL ? auth.currentUser?.photoURL : ''}
             alt=""
             className="h-9 rounded-full cursor-pointer"
           />

@@ -6,6 +6,8 @@ import Suggestions from './Suggestions'
 
 export interface IFeedProps {
   handleLogout: () => void
+  username: string
+  avatar: string
 }
 
 export default function Feed(props: IFeedProps) {
@@ -17,7 +19,6 @@ export default function Feed(props: IFeedProps) {
           <Posts />
         </section>
 
-        {/* Section */}
         <section className="hidden xl:inline-grid md:col-span-1">
           <div className="fixed">
             <MiniProfile handleLogout={props.handleLogout} />

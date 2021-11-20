@@ -1,6 +1,9 @@
-import 'firebase/app'
-import firebase from 'firebase'
-import 'firebase/firestore'
+import 'firebase/compat/auth'
+import 'firebase/compat/firestore'
+import firebase from 'firebase/compat/app'
+import { getAuth, updateProfile } from 'firebase/auth'
+import { getFirestore } from 'firebase/firestore'
+import { getStorage } from 'firebase/storage'
 
 const firebaseConfig = {
   apiKey: 'AIzaSyB8JEdqTxzPwQCuGQwOwzQCbD34FaiAVVo',
@@ -10,7 +13,9 @@ const firebaseConfig = {
   messagingSenderId: '612716385154',
   appId: '1:612716385154:web:7ab819cad6ba2f75a1359b',
 }
+if (!firebase.apps.length) firebase.initializeApp(firebaseConfig)
+const db = getFirestore()
+const storage = getStorage()
+const auth = firebase.auth()
 
-const app = firebase.initializeApp(firebaseConfig)
-
-export default app
+export { auth, db, storage }

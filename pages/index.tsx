@@ -1,15 +1,19 @@
 import React, { useEffect, useState } from 'react'
+import { getAuth, updateProfile } from 'firebase/auth'
 import type { NextPage } from 'next'
-import app from '../firebase'
+import { auth } from '../firebase'
 import Head from 'next/head'
 import Header from '../components/Header'
 import Feed from '../components/Feed'
 import Login from '../components/Login'
+import Modal from '../components/Modal'
 
 const Home: NextPage = () => {
   const [user, setUser] = useState<string | null>('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [username, setUsername] = useState('')
+  const [avatar, setAvatar] = useState('')
   const [emailError, setEmailError] = useState('')
   const [passwordError, setPasswordError] = useState('')
   const [hasAccount, setHasAccount] = useState(false)
@@ -23,8 +27,7 @@ const Home: NextPage = () => {
   }
   const handleLogin = () => {
     clearErrors()
-    app
-      .auth()
+    auth
       .signInWithEmailAndPassword(email, password)
       .catch(
         (err: {
@@ -47,8 +50,7 @@ const Home: NextPage = () => {
   }
   const handleSignUp = () => {
     clearErrors()
-    app
-      .auth()
+    auth
       .createUserWithEmailAndPassword(email, password)
       .catch(
         (err: {
@@ -67,12 +69,18 @@ const Home: NextPage = () => {
           }
         }
       )
+      .then(async () => {
+        await auth.currentUser?.updateProfile({
+          displayName: username,
+          photoURL: avatar,
+        })
+      })
   }
   const handleLogout = () => {
-    app.auth().signOut()
+    auth.signOut()
   }
   const authListener = () => {
-    app.auth().onAuthStateChanged((user: any) => {
+    auth.onAuthStateChanged((user: any) => {
       if (user) {
         clearInputs()
         setUser(user)
@@ -93,8 +101,9 @@ const Home: NextPage = () => {
       </Head>
       {user ? (
         <div className="bg-gray-50 h-screen overflow-y-scroll scrollbar-hide">
-          <Header />
-          <Feed handleLogout={handleLogout} />
+          <Header username={username} avatar={avatar} />
+          <Feed handleLogout={handleLogout} username={username} avatar={avatar} />
+          <Modal />
         </div>
       ) : (
         <Login
@@ -102,6 +111,10 @@ const Home: NextPage = () => {
           setEmail={setEmail}
           password={password}
           setPassword={setPassword}
+          username={username}
+          setUsername={setUsername}
+          avata={avatar}
+          setAvatar={setAvatar}
           handleLogin={handleLogin}
           handleSignUp={handleSignUp}
           hasAccount={hasAccount}
